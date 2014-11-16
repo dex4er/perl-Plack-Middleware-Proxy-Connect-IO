@@ -24,8 +24,8 @@ C<https> addresses.
 The middleware runs on servers supporting C<psgix.io> and provides own
 event loop so does not work correctly with C<psgi.nonblocking> servers.
 
-The middleware uses only Perl's core
-modules: L<IO::Socket::INET> and L<IO::Select>.
+The middleware uses only Perl's core modules: L<IO::Socket::INET> and
+L<IO::Select>.
 
 =for readme stop
 

@@ -24,8 +24,8 @@ This middleware handles the `CONNECT` method. It allows to connect to
 The middleware runs on servers supporting `psgix.io` and provides own
 event loop so does not work correctly with `psgi.nonblocking` servers.
 
-The middleware uses only Perl's core
-modules: [IO::Socket::INET](https://metacpan.org/pod/IO::Socket::INET) and [IO::Select](https://metacpan.org/pod/IO::Select).
+The middleware uses only Perl's core modules: [IO::Socket::INET](https://metacpan.org/pod/IO::Socket::INET) and
+[IO::Select](https://metacpan.org/pod/IO::Select).
 
 # SEE ALSO
 
