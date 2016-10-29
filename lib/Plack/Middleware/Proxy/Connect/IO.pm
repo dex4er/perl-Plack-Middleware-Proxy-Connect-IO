@@ -75,8 +75,12 @@ sub call {
         my $writer = $respond->([200, []]);
 
         $client->blocking(0);
-        $client->setsockopt(IPPROTO_TCP, TCP_NODELAY, 1);
-        $remote->setsockopt(IPPROTO_TCP, TCP_NODELAY, 1);
+
+        # missing on Android
+        if (eval { TCP_NODELAY }) {
+            $client->setsockopt(IPPROTO_TCP, TCP_NODELAY, 1);
+            $remote->setsockopt(IPPROTO_TCP, TCP_NODELAY, 1);
+        }
 
         $ioset->add($client);
         $ioset->add($remote);
