@@ -44,9 +44,11 @@ use parent qw(Plack::Middleware);
 
 use IO::Socket::INET;
 use IO::Select;
+use Socket qw(IPPROTO_TCP TCP_NODELAY);
 
 
 use constant CHUNKSIZE => 64 * 1024;
+use constant TIMEOUT => 0.5;
 
 
 sub call {
@@ -66,34 +68,48 @@ sub call {
 
         my $remote = IO::Socket::INET->new(
             PeerAddr => $host,
-            PeerPort => $port
+            PeerPort => $port,
+            Blocking => 0,
         ) or return $respond->([502, [], ['Bad Gateway']]);
 
         my $writer = $respond->([200, []]);
 
+        $client->blocking(0);
+        $client->setsockopt(IPPROTO_TCP, TCP_NODELAY, 1);
+        $remote->setsockopt(IPPROTO_TCP, TCP_NODELAY, 1);
+
         $ioset->add($client);
         $ioset->add($remote);
 
-        while (1) {
-            for my $socket ($ioset->can_read) {
-                my $buffer;
+        my $bufin = '';
+        my $bufout = '';
 
-                my $socket2 = do {
-                    if ($socket == $remote) {
-                        $client;
-                    } elsif ($socket == $client) {
-                        $remote;
-                    }
-                } or return $respond->([502, [], ['Bad Gateway']]);
-
-                my $read = $socket->sysread($buffer, CHUNKSIZE);
+        IOLOOP: while (1) {
+            for my $socket ($ioset->can_read(TIMEOUT)) {
+                my $read = $socket->sysread(my $chunk, CHUNKSIZE);
 
                 if ($read) {
-                    $socket2->syswrite($buffer);
+                    if ($socket == $client) {
+                        $bufout .= $chunk;
+                    } elsif ($socket == $remote) {
+                        $bufin .= $chunk;
+                    }
                 } else {
-                    $remote->close;
+                    $client->syswrite($bufin);
                     $client->close;
-                    return;
+                    $remote->syswrite($bufout);
+                    $remote->close;
+                    last IOLOOP;
+                }
+            }
+
+            for my $socket ($ioset->can_write(TIMEOUT)) {
+                if ($socket == $client and length $bufin) {
+                    my $write = $socket->syswrite($bufin);
+                    substr $bufin, 0, $write, '';
+                } elsif ($socket == $remote and length $bufout) {
+                    my $write = $socket->syswrite($bufout);
+                    substr $bufout, 0, $write, '';
                 }
             }
         }
