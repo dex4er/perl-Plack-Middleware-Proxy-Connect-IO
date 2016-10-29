@@ -1,13 +1,31 @@
-# [![Build Status](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO.png?branch=master)](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO)
+# [![Build Status](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO.svg?branch=master)](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO)[![CPAN version](https://badge.fury.io/pl/Plack-Middleware-Proxy-Connect-IO.svg)](https://metacpan.org/release/Plack-Middleware-Proxy-Connect-IO)
 
+sudo: false
 language: perl
-before_install:
-  - sudo apt-get update -qq
+addons:
+  apt:
+    packages:
+    - aspell
 install:
-  - sudo apt-get install -qq spell
-  - cpanm --with-recommends --installdeps --notest --skip-satisfied git://github.com/dex4er/perl-DEXTER-Module-Skeleton
+  - test -n "$TEST_SKIP_EXTRA" || cpanm --with-recommends --installdeps --notest --skip-satisfied git://github.com/dex4er/perl-DEXTER-Module-Skeleton
   - cpanm --with-recommends --installdeps --notest --skip-satisfied .
 script: ./Dist.SH
-perl:
-  - "5.20"
-  - "5.10"
+matrix:
+  include:
+  - perl: "5.24"
+  - perl: "5.22"
+    env: TEST_SKIP_EXTRA=1
+  - perl: "5.20"
+    env: TEST_SKIP_EXTRA=1
+  - perl: "5.18"
+    env: TEST_SKIP_EXTRA=1
+  - perl: "5.16"
+    env: TEST_SKIP_EXTRA=1
+  - perl: "5.14"
+    env: TEST_SKIP_EXTRA=1
+  - perl: "5.12"
+    env: TEST_SKIP_EXTRA=1
+  - perl: "5.10"
+    env: TEST_SKIP_EXTRA=1
+  - perl: "5.8"
+    env: TEST_SKIP_EXTRA=1

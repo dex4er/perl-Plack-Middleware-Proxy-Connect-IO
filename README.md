@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO.png?branch=master)](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO)
+[![Build Status](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO.svg?branch=master)](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO)[![CPAN version](https://badge.fury.io/pl/Plack-Middleware-Proxy-Connect-IO.svg)](https://metacpan.org/release/Plack-Middleware-Proxy-Connect-IO)
 
 # NAME
 
