@@ -33,14 +33,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Install cpanmw
+        run: cpanm --notest --skip-satisfied App::cpanmw
+
       - name: Install required dependencies
-        run: cpanm --with-recommends --installdeps --notest --skip-satisfied .
+        run: cpanmw --with-recommends --installdeps --notest --skip-satisfied .
 
       - name: Install extra dependencies
-        run: cpanm --with-recommends --installdeps --notest --skip-satisfied https://github.com/dex4er/perl-DEXTER-Module-Skeleton.git
+        run: cpanmw --with-recommends --installdeps --notest --skip-satisfied https://github.com/dex4er/perl-DEXTER-Module-Skeleton.git
 
       - name: Install pause CLI
-        run: cpanm --installdeps --notest --skip-satisfied App::pause Data::Sah::Type::str
+        run: cpanmw --notest --skip-satisfied App::pause Data::Sah::Type::str
 
       - name: Make distribution
         run: ./Dist.SH
@@ -51,7 +54,7 @@ jobs:
       - name: Make distribution
         run: ./Dist.SH
 
-      - name: Prepare pause CLI
+      - name: Configure pause CLI
         run: |
           cat > ~/pause.conf <<END
           username=$PAUSE_USERNAME
@@ -59,4 +62,4 @@ jobs:
           END
 
       - name: Upload distribution
-        run: pause upload ./*-${GITHUB_REF#refs/tags/}.tar.gz
+        run: pause upload *-${{ github.ref_name }}.tar.gz
