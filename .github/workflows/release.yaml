@@ -48,12 +48,6 @@ jobs:
       - name: Make distribution
         run: ./Dist.SH
 
-      - name: Verify changed files
-        uses: tj-actions/verify-changed-files@v14
-
-      - name: Make distribution
-        run: ./Dist.SH
-
       - name: Configure pause CLI
         run: |
           cat > ~/pause.conf <<END
