@@ -1,10 +1,13 @@
-[![Build Status](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO.svg?branch=master)](https://travis-ci.org/dex4er/perl-Plack-Middleware-Proxy-Connect-IO)[![CPAN version](https://badge.fury.io/pl/Plack-Middleware-Proxy-Connect-IO.svg)](https://metacpan.org/release/Plack-Middleware-Proxy-Connect-IO)
+# Plack::Middleware::Proxy::Connect::IO
 
-# NAME
+[![CI](https://github.com/dex4er/perl-Plack-Middleware-Proxy-Connect-IO/actions/workflows/ci.yaml/badge.svg)](https://github.com/dex4er/perl-Plack-Middleware-Proxy-Connect-IO/actions/workflows/ci.yaml)
+[![Trunk Check](https://github.com/dex4er/perl-Plack-Middleware-Proxy-Connect-IO/actions/workflows/trunk.yaml/badge.svg)](https://github.com/dex4er/perl-Plack-Middleware-Proxy-Connect-IO/actions/workflows/trunk.yaml)
+
+## NAME
 
 Plack::Middleware::Proxy::Connect::IO - CONNECT method
 
-# SYNOPSIS
+## SYNOPSIS
 
     # In app.psgi
     use Plack::Builder;
@@ -16,7 +19,7 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
         Plack::App::Proxy->new->to_app;
     };
 
-# DESCRIPTION
+## DESCRIPTION
 
 This middleware handles the `CONNECT` method. It allows to connect to
 `https` addresses.
@@ -24,14 +27,14 @@ This middleware handles the `CONNECT` method. It allows to connect to
 The middleware runs on servers supporting `psgix.io` and provides own
 event loop so does not work correctly with `psgi.nonblocking` servers.
 
-The middleware uses only Perl's core modules: [IO::Socket::INET](https://metacpan.org/pod/IO::Socket::INET) and
-[IO::Select](https://metacpan.org/pod/IO::Select).
+The middleware uses only Perl's core modules: [IO::Socket::INET](https://metacpan.org/pod/IO%3A%3ASocket%3A%3AINET) and
+[IO::Select](https://metacpan.org/pod/IO%3A%3ASelect).
 
-# SEE ALSO
+## SEE ALSO
 
-[Plack](https://metacpan.org/pod/Plack), [Plack::App::Proxy](https://metacpan.org/pod/Plack::App::Proxy), [Plack::Middleware::Proxy::Connect](https://metacpan.org/pod/Plack::Middleware::Proxy::Connect).
+[Plack](https://metacpan.org/pod/Plack), [Plack::App::Proxy](https://metacpan.org/pod/Plack%3A%3AApp%3A%3AProxy), [Plack::Middleware::Proxy::Connect](https://metacpan.org/pod/Plack%3A%3AMiddleware%3A%3AProxy%3A%3AConnect).
 
-# BUGS
+## BUGS
 
 If you find the bug or want to implement new features, please report it at
 [https://github.com/dex4er/perl-Plack-Middleware-Proxy-Connect-IO/issues](https://github.com/dex4er/perl-Plack-Middleware-Proxy-Connect-IO/issues)
@@ -39,13 +42,13 @@ If you find the bug or want to implement new features, please report it at
 The code repository is available at
 [http://github.com/dex4er/perl-Plack-Middleware-Proxy-Connect-IO](http://github.com/dex4er/perl-Plack-Middleware-Proxy-Connect-IO)
 
-# AUTHOR
+## AUTHOR
 
 Piotr Roszatycki <dexter@cpan.org>
 
-# LICENSE
+## LICENSE
 
-Copyright (c) 2014, 2016 Piotr Roszatycki <dexter@cpan.org>.
+Copyright (c) 2014, 2016, 2023 Piotr Roszatycki <dexter@cpan.org>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as perl itself.

@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push: {}
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        perl-version:
+          - "5.36"
+          - "5.34"
+          - "5.32"
+          - "5.30"
+          - "5.28"
+          - "5.26"
+          - "5.24"
+          - "5.22"
+          - "5.20"
+          - "5.18"
+          - "5.16"
+          - "5.14"
+          - "5.12"
+          - "5.10"
+          - "5.8"
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: perldocker/perl-tester:${{ matrix.perl-version }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install required dependencies
+        run: cpanm --with-recommends --installdeps --notest --skip-satisfied .
+
+      - name: Install extra dependencies
+        if: matrix.perl-version == '5.36'
+        run: cpanm --with-recommends --installdeps --notest --skip-satisfied git://github.com/dex4er/perl-DEXTER-Module-Skeleton
+
+      - name: Skip extra tests on non latest Perl
+        if: matrix.perl-version != '5.36'
+        run: echo 'TEST_SKIP_EXTRA=1' >> $GITHUB_ENV
+
+      - name: Make distribution
+        run: ./Dist.SH
