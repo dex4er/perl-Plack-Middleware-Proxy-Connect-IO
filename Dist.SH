@@ -40,6 +40,8 @@ else
 fi
 
 chmod -R u+w,go-w ./*-[0-9]*.[0-9]*
+
+export COPYFILE_DISABLE=true
 tar zcf "$(basename "$(pwd)").tar.gz" ./*-[0-9]*.[0-9]*
 
 mv ./*.tar.gz ..
