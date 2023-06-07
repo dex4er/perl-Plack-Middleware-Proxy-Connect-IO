@@ -36,6 +36,13 @@ jobs:
       image: perldocker/perl-tester:${{ matrix.perl-version }}
 
     steps:
+      - uses: actions/cache@v3
+        with:
+          path: ~/.cpanm/sources
+          key: cpanm-${{ runner.os }}-ci-${{ hashFiles('Build.PL') }}
+          restore-keys: |
+            cpanm-${{ runner.os }}-
+
       - name: Checkout
         uses: actions/checkout@v3
 
