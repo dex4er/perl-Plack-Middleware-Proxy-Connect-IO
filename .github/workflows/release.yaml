@@ -1,0 +1,55 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "*"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Release
+
+    permissions:
+      id-token: write
+      contents: write
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: perldocker/perl-tester:5.36
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install required dependencies
+        run: cpanm --with-recommends --installdeps --notest --skip-satisfied .
+
+      - name: Install extra dependencies
+        run: cpanm --with-recommends --installdeps --notest --skip-satisfied https://github.com/dex4er/perl-DEXTER-Module-Skeleton.git
+
+      - name: Install pause CLI
+        run: cpanm --with-recommends --installdeps --notest --skip-satisfied App::pause Data::Sah::Type::str
+
+      - name: Make distribution
+        run: ./Dist.SH
+
+      - name: Verify changed files
+        uses: tj-actions/verify-changed-files@v14
+
+      - name: Make distribution
+        run: ./Dist.SH
+
+      - name: Prepare pause CLI
+        run: |
+          cat > ~/pause.conf <<END
+          username=$PAUSE_USERNAME
+          password=${{ secrets.PAUSE_PASSWORD }}
+          END
+
+      - name: Upload distribution
+        run: pause upload ./*-${GITHUB_REF#refs/tags/}.tar.gz
