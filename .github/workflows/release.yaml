@@ -51,7 +51,7 @@ jobs:
       - name: Configure pause CLI
         run: |
           cat > ~/pause.conf <<END
-          username=$PAUSE_USERNAME
+          username=${{ vars.PAUSE_USERNAME }}
           password=${{ secrets.PAUSE_PASSWORD }}
           END
 
