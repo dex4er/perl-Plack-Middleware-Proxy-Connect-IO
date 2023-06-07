@@ -61,9 +61,9 @@ test_tcp(
         my $port = shift;
         my $server = Plack::Loader->auto( port => $port, host => '127.0.0.1' );
         $server->run(
-           Plack::Middleware::Proxy::Connect::IO->wrap(
+            Plack::Middleware::Proxy::Connect::IO->wrap(
                 sub { [200, ['Content-Type' => 'plain/text'], ['Hi']] }
-           )
+            )
         );
     },
 );

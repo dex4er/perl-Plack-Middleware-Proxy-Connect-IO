@@ -1,3 +1,7 @@
+0.0300  2023-06-07      Piotr Roszatycki <dexter@cpan.org>
+
+* New timeout option with default value 5 seconds.
+
 0.0200  2016-10-29      Piotr Roszatycki <dexter@cpan.org>
 
 * Non-blocking sockets.

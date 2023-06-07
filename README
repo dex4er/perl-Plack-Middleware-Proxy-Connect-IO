@@ -4,15 +4,15 @@ NAME
 
 SYNOPSIS
 
-      # In app.psgi
-      use Plack::Builder;
-      use Plack::App::Proxy;
+        # In app.psgi
+        use Plack::Builder;
+        use Plack::App::Proxy;
     
-      builder {
-          enable "Proxy::Connect::IO";
-          enable "Proxy::Requests";
-          Plack::App::Proxy->new->to_app;
-      };
+        builder {
+            enable "Proxy::Connect::IO";
+            enable "Proxy::Requests";
+            Plack::App::Proxy->new->to_app;
+        };
 
 DESCRIPTION
 

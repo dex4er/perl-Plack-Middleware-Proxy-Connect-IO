@@ -6,15 +6,21 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
 
 =head1 SYNOPSIS
 
-  # In app.psgi
-  use Plack::Builder;
-  use Plack::App::Proxy;
+=for markdown
+```perl
 
-  builder {
-      enable "Proxy::Connect::IO";
-      enable "Proxy::Requests";
-      Plack::App::Proxy->new->to_app;
-  };
+    # In app.psgi
+    use Plack::Builder;
+    use Plack::App::Proxy;
+
+    builder {
+        enable "Proxy::Connect::IO";
+        enable "Proxy::Requests";
+        Plack::App::Proxy->new->to_app;
+    };
+
+=for markdown
+```
 
 =head1 DESCRIPTION
 
@@ -37,10 +43,14 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.0200';
+our $VERSION = '0.0300';
 
 
 use parent qw(Plack::Middleware);
+
+use Plack::Util::Accessor qw(
+    timeout
+);
 
 use IO::Socket::INET;
 use IO::Select;
@@ -48,7 +58,17 @@ use Socket qw(IPPROTO_TCP TCP_NODELAY);
 
 
 use constant CHUNKSIZE => 64 * 1024;
-use constant TIMEOUT => 0.5;
+use constant DEFAULT_TIMEOUT => 5;
+use constant READ_TIMEOUT => 0.5;
+use constant WRITE_TIMEOUT => 0.5;
+
+
+sub prepare_app {
+    my ($self) = @_;
+
+    # the default values
+    $self->timeout(DEFAULT_TIMEOUT) unless defined $self->timeout;
+}
 
 
 sub call {
@@ -70,6 +90,7 @@ sub call {
             PeerAddr => $host,
             PeerPort => $port,
             Blocking => 0,
+            Timeout  => $self->timeout,
         ) or return $respond->([502, [], ['Bad Gateway']]);
 
         my $writer = $respond->([200, []]);
@@ -89,7 +110,7 @@ sub call {
         my $bufout = '';
 
         IOLOOP: while (1) {
-            for my $socket ($ioset->can_read(TIMEOUT)) {
+            for my $socket ($ioset->can_read(READ_TIMEOUT)) {
                 my $read = $socket->sysread(my $chunk, CHUNKSIZE);
 
                 if ($read) {
@@ -107,7 +128,7 @@ sub call {
                 }
             }
 
-            for my $socket ($ioset->can_write(TIMEOUT)) {
+            for my $socket ($ioset->can_write(WRITE_TIMEOUT)) {
                 if ($socket == $client and length $bufin) {
                     my $write = $socket->syswrite($bufin);
                     substr $bufin, 0, $write, '';
@@ -124,6 +145,16 @@ sub call {
 
 1;
 
+
+=head1 CONFIGURATION
+
+=over 4
+
+=item timeout
+
+Timeout for the socket. The default value is C<5> seconds.
+
+=back
 
 =for readme continue
 

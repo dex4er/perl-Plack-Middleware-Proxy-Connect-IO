@@ -9,6 +9,9 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
 
 ## SYNOPSIS
 
+
+```perl
+
     # In app.psgi
     use Plack::Builder;
     use Plack::App::Proxy;
@@ -18,6 +21,9 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
         enable "Proxy::Requests";
         Plack::App::Proxy->new->to_app;
     };
+
+
+```
 
 ## DESCRIPTION
 
@@ -29,6 +35,12 @@ event loop so does not work correctly with `psgi.nonblocking` servers.
 
 The middleware uses only Perl's core modules: [IO::Socket::INET](https://metacpan.org/pod/IO%3A%3ASocket%3A%3AINET) and
 [IO::Select](https://metacpan.org/pod/IO%3A%3ASelect).
+
+## CONFIGURATION
+
+- timeout
+
+    Timeout for the socket. The default value is `5` seconds.
 
 ## SEE ALSO
 
