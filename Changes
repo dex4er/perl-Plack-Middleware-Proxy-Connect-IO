@@ -1,4 +1,4 @@
-0.0300  2023-06-07      Piotr Roszatycki <dexter@cpan.org>
+0.0301  2023-06-07      Piotr Roszatycki <dexter@cpan.org>
 
 * New timeout option with default value 5 seconds.
 
