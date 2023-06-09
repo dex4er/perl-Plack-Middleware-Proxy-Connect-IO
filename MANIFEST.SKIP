@@ -74,4 +74,4 @@
 \.o$
 
 # Avoid dot files
-^\.
+^\.(?!perlcritic)

@@ -37,14 +37,12 @@ L<IO::Select>.
 
 =cut
 
-
 use 5.006;
 
 use strict;
 use warnings;
 
 our $VERSION = '0.0301';
-
 
 use parent qw(Plack::Middleware);
 
@@ -56,12 +54,10 @@ use IO::Socket::INET;
 use IO::Select;
 use Socket qw(IPPROTO_TCP TCP_NODELAY);
 
-
-use constant CHUNKSIZE => 64 * 1024;
+use constant CHUNKSIZE       => 64 * 1024;
 use constant DEFAULT_TIMEOUT => 5;
-use constant READ_TIMEOUT => 0.5;
-use constant WRITE_TIMEOUT => 0.5;
-
+use constant READ_TIMEOUT    => 0.5;
+use constant WRITE_TIMEOUT   => 0.5;
 
 sub prepare_app {
     my ($self) = @_;
@@ -69,7 +65,6 @@ sub prepare_app {
     # the default values
     $self->timeout(DEFAULT_TIMEOUT) unless defined $self->timeout;
 }
-
 
 sub call {
     my ($self, $env) = @_;
@@ -106,10 +101,10 @@ sub call {
         $ioset->add($client);
         $ioset->add($remote);
 
-        my $bufin = '';
+        my $bufin  = '';
         my $bufout = '';
 
-        IOLOOP: while (1) {
+    IOLOOP: while (1) {
             for my $socket ($ioset->can_read(READ_TIMEOUT)) {
                 my $read = $socket->sysread(my $chunk, CHUNKSIZE);
 
@@ -142,9 +137,7 @@ sub call {
     };
 }
 
-
 1;
-
 
 =head1 CONFIGURATION
 

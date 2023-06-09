@@ -59,7 +59,7 @@ jobs:
 
       - name: Install extra dependencies
         if: matrix.perl-version == '5.36'
-        run: cpanmw --with-recommends --installdeps --notest --skip-satisfied https://github.com/dex4er/perl-DEXTER-Module-Skeleton.git
+        run: cpanmw --notest --skip-satisfied $(cat xt/requirements.txt)
 
       - name: Skip extra tests
         if: matrix.perl-version != '5.36'

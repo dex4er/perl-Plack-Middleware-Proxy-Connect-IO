@@ -40,7 +40,7 @@ jobs:
         run: cpanmw --with-recommends --installdeps --notest --skip-satisfied .
 
       - name: Install extra dependencies
-        run: cpanmw --with-recommends --installdeps --notest --skip-satisfied https://github.com/dex4er/perl-DEXTER-Module-Skeleton.git
+        run: cpanmw --notest --skip-satisfied $(cat xt/requirements.txt)
 
       - name: Install pause CLI
         run: cpanmw --notest --skip-satisfied App::pause Data::Sah::Type::str
