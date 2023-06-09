@@ -18,7 +18,7 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
     use Plack::App::Proxy;
 
     builder {
-        enable "Proxy::Connect::IO";
+        enable "Proxy::Connect::IO", timeout => 30;
         enable "Proxy::Requests";
         Plack::App::Proxy->new->to_app;
     };
