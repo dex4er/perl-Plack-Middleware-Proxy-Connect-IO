@@ -40,7 +40,7 @@ jobs:
         run: cpanmw --with-recommends --installdeps --notest --skip-satisfied .
 
       - name: Install extra dependencies
-        run: cpanmw --notest --skip-satisfied $(cat xt/requirements.txt)
+        run: cpanmw --notest --skip-satisfied $(cat xt/cpanm.txt)
 
       - name: Install pause CLI
         run: cpanmw --notest --skip-satisfied App::pause Data::Sah::Type::str
