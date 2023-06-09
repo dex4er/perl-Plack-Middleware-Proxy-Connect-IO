@@ -3,6 +3,7 @@
 set -e
 
 PERL=${PERL:-perl}
+PROVE=${PROVE:-prove}
 
 test -x Build && ./Build distclean
 
@@ -27,9 +28,14 @@ cd ./*-[0-9]*.[0-9]*
 
 ${PERL} Build.PL
 ${PERL} Build
-${PERL} Build test
+
+${PROVE} -Iblib/lib t
+
 if [[ -z ${TEST_SKIP_EXTRA} ]] || [[ ${TEST_SKIP_EXTRA} == 0 ]]; then
-    ${PERL} -MApp::Prove -e '$a=App::Prove->new;$a->process_args(qw(-Iblib/lib xt));exit($a->run ? 0 : 1)'
+    ${PROVE} -Iblib/lib xt
+elif [[ -n ${TEST_SKIP_EXTRA} ]] && [[ ${TEST_SKIP_EXTRA} != 1 ]]; then
+    # shellcheck disable=SC2046
+    ${PROVE} $(find xt -name '*.t' ! -name "${TEST_SKIP_EXTRA}")
 fi
 
 if [[ $1 == sign ]]; then
