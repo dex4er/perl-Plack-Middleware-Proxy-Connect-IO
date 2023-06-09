@@ -35,7 +35,7 @@ if [[ -z ${TEST_SKIP_EXTRA} ]] || [[ ${TEST_SKIP_EXTRA} == 0 ]]; then
     ${PROVE} -Iblib/lib xt
 elif [[ -n ${TEST_SKIP_EXTRA} ]] && [[ ${TEST_SKIP_EXTRA} != 1 ]]; then
     # shellcheck disable=SC2046
-    ${PROVE} $(find xt -name '*.t' ! -name "${TEST_SKIP_EXTRA}")
+    ${PROVE} -Iblib/lib $(find xt -name '*.t' ! -name "${TEST_SKIP_EXTRA}")
 fi
 
 if [[ $1 == sign ]]; then
