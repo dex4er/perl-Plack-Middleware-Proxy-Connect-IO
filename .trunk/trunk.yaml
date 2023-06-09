@@ -42,6 +42,7 @@ lint:
         - .perltidyrc
       suggest_if: config_present
   enabled:
+    - actionlint@1.6.24
     - git-diff-check
     - gitleaks@8.16.4
     - markdownlint@0.34.0
