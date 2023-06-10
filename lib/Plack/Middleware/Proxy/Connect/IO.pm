@@ -72,11 +72,8 @@ sub call {
     return $self->app->($env)
         unless $env->{REQUEST_METHOD} eq 'CONNECT';
 
-    return [501, [], ['Not implemented psgi.streaming']]
-        unless $env->{'psgi.streaming'};
-
-    return [501, [], ['Not implemented psgix.io']]
-        unless $env->{'psgix.io'};
+    return [501, [], ['']]
+        unless $env->{'psgi.streaming'} and $env->{'psgix.io'};
 
     return sub {
         my ($respond) = @_;
@@ -94,9 +91,9 @@ sub call {
 
         if (!$remote) {
             if ($! eq 'Operation timed out') {
-                return [504, [], ["Cannot create socket: $IO::Socket::errstr"]];
+                return $respond->([504, [], ['']]);
             } else {
-                return [502, [], ["Cannot create socket: $IO::Socket::errstr"]];
+                return $respond->([502, [], ['']]);
             }
         }
 
