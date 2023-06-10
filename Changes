@@ -1,3 +1,8 @@
+0.0302  2023-06-10      Piotr Roszatycki <dexter@cpan.org>
+
+* Default timeout changed to 60 seconds.
+* Returns 504 if timeout is occured.
+
 0.0301  2023-06-07      Piotr Roszatycki <dexter@cpan.org>
 
 * New timeout option with default value 5 seconds.
