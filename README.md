@@ -41,7 +41,7 @@ The middleware uses only Perl's core modules: [IO::Socket::INET](https://metacpa
 
 - timeout
 
-    Timeout for the socket. The default value is `5` seconds.
+    Timeout for the socket. The default value is `60` seconds.
 
 ## SEE ALSO
 

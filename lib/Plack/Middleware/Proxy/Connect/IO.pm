@@ -55,7 +55,7 @@ use IO::Select;
 use Socket qw(IPPROTO_TCP TCP_NODELAY);
 
 use constant CHUNKSIZE       => 64 * 1024;
-use constant DEFAULT_TIMEOUT => 5;
+use constant DEFAULT_TIMEOUT => 60;
 use constant READ_TIMEOUT    => 0.5;
 use constant WRITE_TIMEOUT   => 0.5;
 
@@ -155,7 +155,7 @@ sub call {
 
 =item timeout
 
-Timeout for the socket. The default value is C<5> seconds.
+Timeout for the socket. The default value is C<60> seconds.
 
 =back
 
