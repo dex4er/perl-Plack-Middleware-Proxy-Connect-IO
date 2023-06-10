@@ -69,26 +69,36 @@ sub prepare_app {
 sub call {
     my ($self, $env) = @_;
 
-    return $self->app->($env) unless $env->{REQUEST_METHOD} eq 'CONNECT';
+    return $self->app->($env)
+        unless $env->{REQUEST_METHOD} eq 'CONNECT';
 
-    my $client = $env->{'psgix.io'}
-        or return [501, [], ['Not implemented CONNECT method']];
+    return [501, [], ['Not implemented psgi.streaming']]
+        unless $env->{'psgi.streaming'};
 
-    my ($host, $port) = $env->{REQUEST_URI} =~ m{^(?:.+\@)?(.+?)(?::(\d+))?$};
+    return [501, [], ['Not implemented psgix.io']]
+        unless $env->{'psgix.io'};
 
-    my $ioset = IO::Select->new;
-
-    sub {
+    return sub {
         my ($respond) = @_;
+
+        my $client = $env->{'psgix.io'};
+
+        my ($host, $port) = $env->{REQUEST_URI} =~ m{^(?:.+\@)?(.+?)(?::(\d+))?$};
 
         my $remote = IO::Socket::INET->new(
             PeerAddr => $host,
             PeerPort => $port,
             Blocking => 0,
             Timeout  => $self->timeout,
-        ) or return $respond->([502, [], ['Bad Gateway']]);
+        );
 
-        my $writer = $respond->([200, []]);
+        if (!$remote) {
+            if ($! eq 'Operation timed out') {
+                return [504, [], ["Cannot create socket: $IO::Socket::errstr"]];
+            } else {
+                return [502, [], ["Cannot create socket: $IO::Socket::errstr"]];
+            }
+        }
 
         $client->blocking(0);
 
@@ -98,8 +108,12 @@ sub call {
             $remote->setsockopt(IPPROTO_TCP, TCP_NODELAY, 1);
         }
 
+        my $ioset = IO::Select->new;
+
         $ioset->add($client);
         $ioset->add($remote);
+
+        my $writer = $respond->([200, []]);
 
         my $bufin  = '';
         my $bufout = '';
@@ -133,7 +147,6 @@ sub call {
                 }
             }
         }
-
     };
 }
 
