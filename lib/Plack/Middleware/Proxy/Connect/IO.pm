@@ -6,8 +6,7 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
 
 =head1 SYNOPSIS
 
-=for markdown
-```perl
+=for markdown ```perl
 
     # In app.psgi
     use Plack::Builder;
@@ -19,8 +18,7 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
         Plack::App::Proxy->new->to_app;
     };
 
-=for markdown
-```
+=for markdown ```
 
 =head1 DESCRIPTION
 

@@ -10,7 +10,6 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
 
 ## SYNOPSIS
 
-
 ```perl
 
     # In app.psgi
@@ -22,7 +21,6 @@ Plack::Middleware::Proxy::Connect::IO - CONNECT method
         enable "Proxy::Requests";
         Plack::App::Proxy->new->to_app;
     };
-
 
 ```
 
