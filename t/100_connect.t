@@ -17,7 +17,7 @@ test_tcp(
         test_tcp(
             client => sub {
                 my $port_orig = shift;
-                my $sock      = IO::Socket::INET->new(PeerPort => $port_proxy, PeerAddr => '127.0.0.1', Proto => 'tcp',)
+                my $sock = IO::Socket::INET->new(PeerPort => $port_proxy, PeerAddr => '127.0.0.1', Proto => 'tcp',)
                     or die $!;
 
                 # Perform the handshake.
@@ -54,7 +54,7 @@ test_tcp(
         );
     },
     server => sub {
-        my $port   = shift;
+        my $port = shift;
         my $server = Plack::Loader->auto(port => $port, host => '127.0.0.1');
         $server->run(
             Plack::Middleware::Proxy::Connect::IO->wrap(sub { [200, ['Content-Type' => 'plain/text'], ['Hi']] }));

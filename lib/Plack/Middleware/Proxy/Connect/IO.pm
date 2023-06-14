@@ -110,7 +110,7 @@ sub call {
 
         my $writer = $respond->([200, []]);
 
-        my $bufin  = '';
+        my $bufin = '';
         my $bufout = '';
 
     IOLOOP: while (1) {
