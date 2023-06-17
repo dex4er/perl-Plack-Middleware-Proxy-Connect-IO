@@ -40,7 +40,7 @@ use 5.006;
 use strict;
 use warnings;
 
-our $VERSION = '0.0303';
+our $VERSION = '0.0304';
 
 use parent qw(Plack::Middleware);
 
